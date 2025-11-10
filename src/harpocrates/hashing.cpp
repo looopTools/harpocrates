@@ -1,4 +1,4 @@
-#include "hashing.hpp"
+#include <harpocrates/hashing.hpp>
 
 #include <openssl/sha.h>
 #include <openssl/hmac.h>
@@ -47,10 +47,10 @@ namespace hashing
         case hash_type::CRC32:
             return "CRC32";
         default:
-            return "SHA-1"; 
+            return "SHA-1";
         }
     }
-    
+
 namespace vectors
 {
     void hash(const std::vector<uint8_t>& data, std::vector<uint8_t>& hash, hash_type type)
@@ -74,7 +74,7 @@ namespace vectors
             break;
         default:
             sha1_hash(data, hash);
-            break;            
+            break;
         }
     }
 
@@ -91,16 +91,16 @@ namespace vectors
         hash = std::vector<uint8_t>(SHA_DIGEST_LENGTH);
         for (uint32_t i = 0; i < SHA_DIGEST_LENGTH; ++i)
         {
-            hash.at(i) = (uint8_t) digest[i]; 
+            hash.at(i) = (uint8_t) digest[i];
         }
     }
-    
+
     void sha256_hash(const std::vector<uint8_t>& data, std::vector<uint8_t>& hash)
     {
         unsigned char digest[SHA256_DIGEST_LENGTH];
-        
+
         SHA256_CTX shactx;
-    
+
         SHA256_Init(&shactx);
         SHA256_Update(&shactx, data.data(), data.size());
         SHA256_Final(digest, &shactx);
@@ -108,10 +108,10 @@ namespace vectors
         hash = std::vector<uint8_t>(SHA256_DIGEST_LENGTH);
         for (uint32_t i = 0; i < SHA256_DIGEST_LENGTH; ++i)
         {
-            hash.at(i) = (uint8_t) digest[i]; 
+            hash.at(i) = (uint8_t) digest[i];
         }
     }
-    
+
     void sha512_hash(const std::vector<uint8_t>& data, std::vector<uint8_t>& hash)
     {
         unsigned char digest[SHA512_DIGEST_LENGTH];
@@ -125,7 +125,7 @@ namespace vectors
         hash = std::vector<uint8_t>(SHA512_DIGEST_LENGTH);
         for (uint32_t i = 0; i < SHA512_DIGEST_LENGTH; ++i)
         {
-            hash.at(i) = (uint8_t) digest[i]; 
+            hash.at(i) = (uint8_t) digest[i];
         }
     }
 
@@ -143,9 +143,9 @@ namespace vectors
         }
         else
         {
-            key = std::vector<uint8_t>(SHA_DIGEST_LENGTH, 0); 
+            key = std::vector<uint8_t>(SHA_DIGEST_LENGTH, 0);
         }
-        
+
         uint8_t* temp;
 
         temp =  (uint8_t*) ::HMAC(EVP_sha1(), key.data(), key.size(),
@@ -163,7 +163,7 @@ namespace vectors
 	    std::uint_fast32_t operator()() noexcept
 	    {
                 auto checksum = static_cast<std::uint_fast32_t>(n++);
-      
+
                 for (auto i = 0; i < 8; ++i)
                     checksum = (checksum >> 1) ^ ((checksum & 0x1u) ? reversed_polynomial : 0);
 
@@ -178,7 +178,7 @@ namespace vectors
 
 	return table;
     }
-  
+
     void crc32_hash(const std::vector<uint8_t>& data, std::vector<uint8_t>& hash)
     {
         static auto const table = generate_crc_lookup_table();
@@ -190,7 +190,7 @@ namespace vectors
 	    hash.push_back(*(static_cast<uint8_t *>(static_cast<void *>(&temp)) + i));
     }
 }
-    
+
 namespace pointers
 {
     void hash(const uint8_t* data, const size_t size, uint8_t* hash, hash_type type)
@@ -242,7 +242,7 @@ namespace pointers
 	SHA512_Update(&shactx, data, size);
 	SHA512_Final(hash, &shactx);
     }
-    
-}    
+
+}
 }
 }

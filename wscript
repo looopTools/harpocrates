@@ -6,7 +6,7 @@ import os
 import sys
 
 APPNAME = 'harpocrates' #TODO: REPLACE
-VERSION = '1.0.0' #TODO: REPLACE 
+VERSION = '1.0.0' #TODO: REPLACE
 
 cxx_compiler['linux'] = ['clang++']
 
@@ -22,15 +22,15 @@ def configure(cnf) :
                                  ['-isysroot/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk', '-stdlib=libc++', '-I/usr/local/opt/openssl/include'])
 
             cnf.env.append_value('LINKFLAGS', ['-L/usr/local/opt/openssl/lib'])
-                    
+
     cnf.env.append_value('LINKFLAGS', ['-pthread', '-lcrypto'])
 
 
 def build(bld):
-    # REPLACE PROJECT NAME 
+    # REPLACE PROJECT NAME
     bld(name = 'harpocrates_includes',
-        includes='./src',
-        export_includes='./src')
+        includes='./include',
+        export_includes='./include')
 
 
     bld.stlib(name = 'harpocrates',
@@ -39,7 +39,7 @@ def build(bld):
         includes='../src',
         source=bld.path.ant_glob('src/harpocrates/**/*.cpp'),
         libs = ['crypto'],
-        use = ['harpocrates_includes'])    
+        use = ['harpocrates_includes'])
 
     bld(name='benchmark',
         features='cxx cxxprogram',
@@ -48,7 +48,7 @@ def build(bld):
 	lib = ['crypto'],
         use=['harpocrates']
     )
-    
+
     # Build Examples
     bld.recurse('examples/simple_example')
     bld.recurse('examples/simple_encrypt_ctr_example')
@@ -66,13 +66,13 @@ def doc(dc):
 
 # run_tests
 # finds all test locate in the sub dirs of base dir and executes them
-# @param base_dir your test folder 
+# @param base_dir your test folder
 def run_tests(base_dir):
 
     platform = sys.platform
     if not base_dir.endswith('/'):
         base_dir = base_dir + '/'
-    
+
     exec_cmd = './' + base_dir
 
     for dir in os.listdir(base_dir):
@@ -96,13 +96,11 @@ def generate_documentation(doc_tool='doxygen', params=None, config_file=None):
 
 
     cmd = doc_tool + ' '
-    
+
     if len(param_str) == 0:
         cmd = cmd + param_str
 
     if config_file:
         cmd = cmd + config_file
-    
-    os.system(cmd)
 
-    
+    os.system(cmd)
