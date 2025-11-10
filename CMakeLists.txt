@@ -20,7 +20,15 @@ endif()
 target_include_directories(${PROJECT_NAME} PUBLIC ${CMAKE_SOURCE_DIR}/include)
 target_link_libraries(${PROJECT_NAME} OpenSSL::Crypto)
 
+if(BUILD_MEASUREMENTS)
+  add_subdirectory(measurements)
+endif()
 
 if(BUILD_TEST)
   add_subdirectory(test)
 endif()
+
+install(TARGETS ${PROJECT_NAME}
+  LIBRARY DESTINATION lib)
+
+install(DIRECTORY include/harpocrates DESTINATION include)

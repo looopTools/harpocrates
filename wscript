@@ -15,7 +15,7 @@ def options(opt) :
 
 def configure(cnf) :
     cnf.load('compiler_cxx')
-    cnf.env.append_value('CXXFLAGS', ['-std=c++17', '-Wall', '-Werror', '-Wextra', '-O3'])
+    cnf.env.append_value('CXXFLAGS', ['-std=c++17', '-Wall', '-O3'])#, '-Werror', '-Wextra', '-O3'])
 
     if sys.platform == 'darwin':
             cnf.env.append_value('CXXFLAGS',
@@ -41,22 +41,22 @@ def build(bld):
         libs = ['crypto'],
         use = ['harpocrates_includes'])
 
-    bld(name='benchmark',
-        features='cxx cxxprogram',
-        target='benchmark',
-        source='measurements/benchmark.cpp',
-	lib = ['crypto'],
-        use=['harpocrates']
-    )
+    # bld(name='benchmark',
+    #     features='cxx cxxprogram',
+    #     target='benchmark',
+    #     source='measurements/benchmark.cpp',
+    #     lib = ['crypto'],
+    #     use=['harpocrates']
+    # )
 
-    # Build Examples
-    bld.recurse('examples/simple_example')
-    bld.recurse('examples/simple_encrypt_ctr_example')
+    # # Build Examples
+    # bld.recurse('examples/simple_example')
+    # bld.recurse('examples/simple_encrypt_ctr_example')
 
     # Build Test
-    bld.recurse('test/test_encrypt_decrypt')
-    bld.recurse('test/test_hashing')
-    bld.recurse('test/test_hashing_with_pointers')
+#    bld.recurse('test/test_encrypt_decrypt')
+#    bld.recurse('test/test_hashing')
+#    bld.recurse('test/test_hashing_with_pointers')
 
 def test(t):
     run_tests('build/test')
