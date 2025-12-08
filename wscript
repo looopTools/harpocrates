@@ -1,7 +1,7 @@
 from waflib.Tools.compiler_cxx import cxx_compiler
 #from scripts.waf import utils
 
-# import subprocess
+import subprocess
 import os
 import sys
 
@@ -18,8 +18,10 @@ def configure(cnf) :
     cnf.env.append_value('CXXFLAGS', ['-std=c++17', '-Wall', '-O3'])#, '-Werror', '-Wextra', '-O3'])
 
     if sys.platform == 'darwin':
+            sdkpath = subprocess.check_output(['xcrun', '--show-sdk-path'], text=True).strip()
+            print(f'Using SDK path: {sdkpath}')
             cnf.env.append_value('CXXFLAGS',
-                                 ['-isysroot/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk', '-stdlib=libc++', '-I/usr/local/opt/openssl/include'])
+                                 [f'-isysroot{sdkpath}', '-stdlib=libc++', '-I/usr/local/opt/openssl/include'])
 
             cnf.env.append_value('LINKFLAGS', ['-L/usr/local/opt/openssl/lib'])
 
@@ -33,6 +35,7 @@ def build(bld):
         export_includes='./include')
 
 
+    print(bld.env.CXXFLAGS)
     bld.stlib(name = 'harpocrates',
         features = 'cxx cxxstlib',
         target='harpocrates',
@@ -41,12 +44,13 @@ def build(bld):
         libs = ['crypto'],
         use = ['harpocrates_includes'])
 
+    print(bld.env.CXXFLAGS)
     # bld(name='benchmark',
     #     features='cxx cxxprogram',
     #     target='benchmark',
     #     source='measurements/benchmark.cpp',
-    #     lib = ['crypto'],
-    #     use=['harpocrates']
+    #     libs = ['crypto'],
+    #     use=['harpocrates_includes', 'harpocrates'],
     # )
 
     # # Build Examples
@@ -54,7 +58,7 @@ def build(bld):
     # bld.recurse('examples/simple_encrypt_ctr_example')
 
     # Build Test
-#    bld.recurse('test/test_encrypt_decrypt')
+    bld.recurse('test/test_encrypt_decrypt')
 #    bld.recurse('test/test_hashing')
 #    bld.recurse('test/test_hashing_with_pointers')
 

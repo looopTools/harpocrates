@@ -4,5 +4,5 @@ def build(bld):
     bld(features = 'cxx cxxprogram',
         target = 'test_encrypt_decrypt',
         source = 'test_encrypt_decrypt.cpp',
-        lib = ['crypto'],        
-        use = ['harpocrates_includes', 'harpocrates', 'gtest'])    
+        lib = ['crypto', 'gtest'],
+        use = ['harpocrates_includes', 'harpocrates'])

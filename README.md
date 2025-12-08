@@ -198,4 +198,5 @@ Project AUFF-2017-FLS-7-1, and Aarhus University’s DIGIT Centre.
 <a href="http://www.au.dk/"><img width="250" src="https://github.com/AgileCloudLab/harpocrates/blob/master/graphics/aulogo_uk_var1_blue.png" alt="au-logo"/></a>
 <a href="http://eng.au.dk/en/research/electrical-and-computer-engineering/communications-and-networks/network-computing-communications-and-storage/"><img width="250" src="https://github.com/AgileCloudLab/harpocrates/blob/master/graphics/Scale_IoT_Logo.png" alt="scale-iot-logo"/></a>
 <a href="http://eng.au.dk/en/research/electrical-and-computer-engineering/communications-and-networks/network-computing-communications-and-storage/"><img width="250" src="https://github.com/AgileCloudLab/harpocrates/blob/master/graphics/netx-logo.png" alt="netx-logo" /></a>
+<a href="https://obsidian-wolf-labs.com"><img width="250" src="https://obsidian-wolf-labs.com/assets/images/logo.svg" alt="owl-logo"/></a>
 </center>
